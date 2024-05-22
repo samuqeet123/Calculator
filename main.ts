@@ -2,71 +2,25 @@ import inquirer from "inquirer"
 const answer = await inquirer.prompt([
     {
         type: "input",
-        name: "User",
-        message: "Enter your UserName"
+        name: "GuessedNumberByProgram",
+        message: "Choise the number between 0 to"
     },
     {
         type: "input",
-        name: "PIN",
-        message: "Enter PIN Code"
-    },
-    {
-        type: "list",
-        name: "select",
-        message: "What do you want?",
-        choices: ["Fast Withdraw", "Check Balance", "Transfer Amount", "Deposite"]
+        name: "GuessTheNumber",
+        message: "Enter the guessed number"
     }
 ])
+let guessed = parseInt(answer.GuessedNumberByProgram)
+let yourGuess = parseInt(answer.GuessTheNumber)
+// console.log(guessed)
+// console.log(yourGuess)
 
-let opr = answer.select
-let Balance: number = 50000
+let programGuessed = Math.floor(Math.random() * guessed)
 
-switch (opr) {
-    case "Fast Withdraw":
-        const amount = await inquirer.prompt([
-            { 
-              type: "list",
-              name: "selectAmount",  
-              message: "Select the amount",
-              choices: [500, 1000, 5000, 10000, 20000]  
-            }
-        ])
-
-        let SA = amount.selectAmount
-        let selectedAmount = parseInt(SA)
-        Balance -= selectedAmount
-        break;
-
-    case "Check Balance":
-        Balance -= 3.75    
-        console.log(Balance);
-        break;
-    
-    case "Transfer Amount":
-        const transferingAmount = await inquirer.prompt([
-            {
-                type: "input",
-                name: "transfer",
-                message: "Input Amount to Transfer",
-            }
-        ])
-        let tt = transferingAmount.transfer
-        let transferAmount = parseInt(tt)
-        Balance -= transferAmount
-        break;
-        
-    case "Deposite":
-        const depositingAmount = await inquirer.prompt([
-            {
-                type: "input",
-                name: "depositing",
-                message: "Enter Amount to deposit"
-            }
-        ])
-        let DA = depositingAmount.depositing
-        let depositedAmount = parseInt(DA)
-        Balance += depositedAmount
-        break;
- 
+if (programGuessed == yourGuess) {
+    console.log("You Win")
 }
-console.log(`Your curernt balance is ${Balance}`)
+else {
+    console.log(`You lose..The write answer was ${programGuessed}.. Try again`)
+}
