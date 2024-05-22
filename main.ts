@@ -1,91 +1,72 @@
-import inquirer from "inquirer";
-let welcome = new Promise((resolve, reject)=> {
-    console.log("Loading......")
-    setTimeout(()=> {
-        resolve(console.log("Welcome to calculator"))
-    },2000)
-})
-async function calculator() {
-await welcome
+import inquirer from "inquirer"
 const answer = await inquirer.prompt([
     {
         type: "input",
-        name: "num1",
-        message: "enter the first number in num1"
-    }, 
+        name: "User",
+        message: "Enter your UserName"
+    },
     {
         type: "input",
-        name: "num2",
-        message: "enter the second number in num2"
+        name: "PIN",
+        message: "Enter PIN Code"
     },
     {
         type: "list",
-        name: "operation",
-        message: "pick your desire operation",
-        choices: ["addition", "substraction", "multiplication", "division"]
+        name: "select",
+        message: "What do you want?",
+        choices: ["Fast Withdraw", "Check Balance", "Transfer Amount", "Deposite"]
     }
 ])
-// console.log(answer.num1)
-// console.log(answer.num2)
-// console.log(answer.operation)
-let num1 = parseInt(answer.num1)
-let num2 = parseInt(answer.num2)
-let result
-    let addition = () => {
-        result = num1 + num2
-        return result
-    }
 
-    let substraction = () => {
-        result = num1 - num2
-        return result
-    }
+let opr = answer.select
+let Balance: number = 50000
 
-    let multiplication = () => {
-        result = answer.num1 * answer.num2
-        return result
-    }
-
-    let division = () => {
-        result = answer.num1 / answer.num2
-        return result.toFixed(3)
-    }
-    switch(answer.operation){
-        case "addition":
-            console.log(addition())
-            break;
-
-        case "substraction":
-            console.log(substraction())
-            break;
-
-        case 'multiplication':
-            console.log(multiplication())
-            break;
-
-        case "division":
-            console.log(division())
-            break;
-    }
-    let array = []
-    return array.push(result)
-}
-
-async function wait() {
-    do {await calculator()
-        var answer = await inquirer.prompt([
-            {
-                type: "list",
-                name: "continue",
-                message: "Do you want to continue?",
-                choices: ["YES", "NO"]
+switch (opr) {
+    case "Fast Withdraw":
+        const amount = await inquirer.prompt([
+            { 
+              type: "list",
+              name: "selectAmount",  
+              message: "Select the amount",
+              choices: [500, 1000, 5000, 10000, 20000]  
             }
         ])
-        var AC = answer.continue == "YES"
-    }
-    while (AC)
+
+        let SA = amount.selectAmount
+        let selectedAmount = parseInt(SA)
+        Balance -= selectedAmount
+        break;
+
+    case "Check Balance":
+        Balance -= 3.75    
+        console.log(Balance);
+        break;
+    
+    case "Transfer Amount":
+        const transferingAmount = await inquirer.prompt([
+            {
+                type: "input",
+                name: "transfer",
+                message: "Input Amount to Transfer",
+            }
+        ])
+        let tt = transferingAmount.transfer
+        let transferAmount = parseInt(tt)
+        Balance -= transferAmount
+        break;
+        
+    case "Deposite":
+        const depositingAmount = await inquirer.prompt([
+            {
+                type: "input",
+                name: "depositing",
+                message: "Enter Amount to deposit"
+            }
+        ])
+        let DA = depositingAmount.depositing
+        let depositedAmount = parseInt(DA)
+        Balance += depositedAmount
+        break;
+ 
 }
-await wait()
-console.log()
-
-
+console.log(`Your curernt balance is ${Balance}`)
